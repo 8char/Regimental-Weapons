@@ -1,0 +1,32 @@
+class Network extends AtlasUI.Network
+    constructor(...)
+        super(...)
+
+        self:setPrefix("RegimentalWeapons.")
+        self:prepare({
+            "Message",
+            "People",
+            "RequestPeople",
+        })
+
+        self:receiver("RequestPeople",  self.receiveRequestPeople)
+    end
+
+    sendMessage(target, msg)
+        self:send("Message", target, () ->
+            net.WriteString(msg)
+        end)
+    end
+
+    sendPeople(target)
+        self:send("People", target, () ->
+            self:compress(RegimentalWeapons.PersonController:getPeople())
+        end)
+    end
+
+    receiveRequestPeople(ply)
+        self:sendPeople(ply)
+    end
+end
+
+SkillSystem.Network = Network()
