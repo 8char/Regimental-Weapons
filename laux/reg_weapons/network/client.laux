@@ -4,25 +4,20 @@ class Network extends AtlasUI.Network
 
         self:setPrefix("RegimentalWeapons.")
 
-        self:receiver("Message",    self.receiveMessage)
-        self:receiver("People",     self.receivePeople)
+        self:receiver("OpenMenu",    self.receiveOpenMenu)
     end
 
-    receiveMessage(ply)
-        local msg = net.ReadString()
-
-        chat.Add(Color(144, 255, 45), "[Regimental Weapons] ", Color(255, 255, 255), msg)
+    requestWeapon(weaponId)
+        self:send("WeaponRequest", () ->
+            net.WriteString(weaponId)
+        end)
     end
 
-    receivePeople(ply)
-        local people = self:uncompress()
+    receiveOpenMenu(ply)
+        RegimentalWeapons.PlayerAccessibleJobs = self:decompress()
 
-        hook.Run("RegimentalWeapons.ReceivePeople", people)
-    end
-
-    requestPeople(ply)
-        self:send("RequestPeople", () -> end)
+        vgui.Create("RegimentalWeapons.Frame")
     end
 end
 
-SkillSystem.Network = Network()
+RegimentalWeapons.Network = Network()
