@@ -10,4 +10,17 @@ function PANEL:Init()
     self.content:Dock(FILL)
 end
 
+function PANEL:PerformLayout(w, h)
+    self.BaseClass:PerformLayout(w, h)
+    local totalHeight = 0
+    for k, v of self.content.weapons do
+        local _, topMargin, _, bottomMargin = v:GetDockMargin()
+        totalHeight += v:GetTall() + topMargin + bottomMargin
+        
+    end
+    totalHeight += 20
+    self:SetTall(totalHeight)
+end
+
+
 vgui.Register("RegimentalWeapons.Frame", PANEL, "AtlasUI.Frame")

@@ -60,6 +60,7 @@ function PANEL:Init()
         end
         self.weapons[k]:SetCursor("no")
     end
+    self:GetParent():InvalidateLayout()
 end
 
 vgui.Register("RegimentalWeapons.Main", PANEL)

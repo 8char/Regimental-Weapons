@@ -16,12 +16,12 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     to set what weapons they should be able to aquire using the menu:
 
     cfg:AddChoiceJob(TEAM_104ARC, {
-        cfg:Weapon("clone_e22", {
+        cfg:Weapon("tfa_e22", {
             TEAM_104CPT,
             TEAM_104LT,
             TEAM_104SGT
         }),
-        cfg:Weapon("clone_dual_dc15s", {
+        cfg:Weapon("tfa_dual_dc15s", {
             TEAM_104LT,
             TEAM_104CPT
         }),
@@ -44,55 +44,21 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     varable counterparts instead of numbers, for example:
 
     BAD:
-        5 (Noone ever knows what this seemingly random number means, it can also change which is bad...)
+        5 (No one ever knows what this seemingly random number means, it can also change which is bad...)
 
     GOOD:
         TEAM_501ARC (This variable is much easier to understand what it is, aswell as it changing its number even if the order of the jobs was changed)
 
     
-    cfg:Weapon("clone_dual_dc15s", {
+    cfg:Weapon("tfa_dual_dc15s", {
         TEAM_104LT,
         TEAM_104CPT
     }),
 
     Dual DC-15s, will be restricted to those whitelisted to 104th CO or SO
-]]--
 
-
-
-
-
-
-
-
-    --[[
-
-
-        104th Wolfpack Battalion
-
-
-    ]]--
-
-    cfg:AddChoiceJob(TEAM_104ARC, {
-        cfg:Weapon("clone_e22", {
-            TEAM_104CPT,
-            TEAM_104LT,
-            TEAM_104SGT
-        }),
-        cfg:Weapon("clone_dual_dc15s", {
-            TEAM_104LT,
-            TEAM_104CPT
-        }),
-    })
-
-    cfg:AddChoiceJob(TEAM_104MEDIC, {
-        cfg:Weapon("clone_dual_dc17"),
-        cfg:Weapon("clone_e22", {
-            TEAM_104LT,
-            TEAM_104CPT
-        }),
-        cfg:Weapon("clone_dual_dc15s", TEAM_104CPT),
-    })
+    If multiple jobs have the same config e.g same weapons and exclusions we can use a table
+    So instead of doing multiple as shown below 
 
     cfg:AddChoiceJob(TEAM_104NULL, {
         cfg:Weapon("clone_e22", {
@@ -119,6 +85,68 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     })
 
 
+    We can do this instead. So the teams after AddChoiceJob can be in a table.
+    P.S Just copy example below and change lol.
+    
+    cfg:AddChoiceJob({
+        TEAM_104NULL,
+        TEAM_104SOF
+     }, {
+        cfg:Weapon("tfa_e22", {
+            TEAM_104CPT,
+            TEAM_104LT,
+            TEAM_104SGT
+        }),
+        cfg:Weapon("tfa_dual_dc15s", {
+            TEAM_104LT,
+            TEAM_104CPT
+        }),
+    })
+
+
+]]--
+
+
+
+
+
+
+
+
+    --[[
+
+
+        104th Wolfpack Battalion
+
+
+    ]]--
+
+    cfg:AddChoiceJob({
+        TEAM_104ARC,
+        TEAM_104NULL,
+        TEAM_104SOF
+     }, {
+        cfg:Weapon("tfa_e22", {
+            TEAM_104CPT,
+            TEAM_104LT,
+            TEAM_104SGT
+        }),
+        cfg:Weapon("tfa_dual_dc15s", {
+            TEAM_104LT,
+            TEAM_104CPT
+        }),
+    })
+
+    cfg:AddChoiceJob(TEAM_104MEDIC, {
+        cfg:Weapon("tfa_dual_dc17"),
+        cfg:Weapon("tfa_e22", {
+            TEAM_104LT,
+            TEAM_104CPT
+        }),
+        cfg:Weapon("tfa_dual_dc15s", TEAM_104CPT),
+    })
+
+
 
     --[[
 
@@ -128,44 +156,29 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
 
     ]]--
 
-    cfg:AddChoiceJob(TEAM_212ARC, {
-        cfg:Weapon("sp_rpg", {
-            TEAM_212LT,
-            TEAM_212CPT
-        }),
-        cfg:Weapon("sp_grenade_launcher"),
-    })
-
     cfg:AddChoiceJob(TEAM_212MEDIC, {
         cfg:Weapon("weapon_lfsmissilelauncher", TEAM_212CPT),
         cfg:Weapon("zeus_thermaldet"),
-        cfg:Weapon("clone_t21", {
+        cfg:Weapon("tfa_t21", {
             TEAM_212LT,
             TEAM_212CPT
         }),
-        cfg:Weapon("weapon_gun_worm", {
-            TEAM_212LT,
-            TEAM_212CPT
-        }),
-        cfg:Weapon("sp_rpg", TEAM_212CPT),
-        cfg:Weapon("sp_grenade_launcher", TEAM_212CPT),
+        cfg:Weapon("tfa_plx1", TEAM_212CPT),
+        cfg:Weapon("tfa_grenadelauncher", TEAM_212CPT),
     })
 
-    cfg:AddChoiceJob(TEAM_212NULL, {
-        cfg:Weapon("sp_rpg", {
+    cfg:AddChoiceJob({
+        TEAM_212NULL,
+        TEAM_212SOF,
+        TEAM_212ARC
+    }, {
+        cfg:Weapon("tfa_plx1", {
             TEAM_212LT,
             TEAM_212CPT
         }),
-        cfg:Weapon("sp_grenade_launcher"),
+        cfg:Weapon("tfa_grenadelauncher"),
     })
 
-    cfg:AddChoiceJob(TEAM_212SOF, {
-        cfg:Weapon("sp_rpg", {
-            TEAM_212LT,
-            TEAM_212CPT
-        }),
-        cfg:Weapon("sp_grenade_launcher"),
-    })
 
 
 
@@ -178,33 +191,33 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     ]]--
 
     cfg:AddChoiceJob(TEAM_501ARC, {
-        cfg:Weapon("clone_dp23"),
-        cfg:Weapon("clone_z6rotaryi", {
+        cfg:Weapon("tfa_dp23"),
+        cfg:Weapon("tfa_z6", {
             TEAM_501LT,
             TEAM_501CPT
         }),
     })
 
     cfg:AddChoiceJob(TEAM_501MEDIC, {
-        cfg:Weapon("clone_dp23", {
+        cfg:Weapon("tfa_dp23", {
             TEAM_501LT,
             TEAM_501CPT
         }),
-        cfg:Weapon("clone_z6rotaryi", TEAM_501CPT),
-        cfg:Weapon("clone_sx21", TEAM_501SGT),
+        cfg:Weapon("tfa_z6", TEAM_501CPT),
+        cfg:Weapon("tfa_sx21", TEAM_501SGT),
     })
 
     cfg:AddChoiceJob(TEAM_501NULL, {
-        cfg:Weapon("clone_dp23"),
-        cfg:Weapon("clone_z6rotaryi", {
+        cfg:Weapon("tfa_dp23"),
+        cfg:Weapon("tfa_z6", {
             TEAM_501LT,
             TEAM_501CPT
         }),
     })
 
     cfg:AddChoiceJob(TEAM_501SOF, {
-        cfg:Weapon("clone_dp23"),
-        cfg:Weapon("clone_z6rotaryi", {
+        cfg:Weapon("tfa_dp23"),
+        cfg:Weapon("tfa_z6", {
             TEAM_501LT,
             TEAM_501CPT
         }),
@@ -221,22 +234,22 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     ]]--
 
     cfg:AddChoiceJob(TEAM_CEARC, {
-        cfg:Weapon("clone_dlt19"),
+        cfg:Weapon("tfa_dlt19"),
     })
 
     cfg:AddChoiceJob(TEAM_CEMEDIC, {
-        cfg:Weapon("clone_dlt19", {
+        cfg:Weapon("tfa_dlt19", {
             TEAM_CELT,
             TEAM_CECPT
         }),
     })
 
     cfg:AddChoiceJob(TEAM_CENULL, {
-        cfg:Weapon("clone_dlt19"),
+        cfg:Weapon("tfa_dlt19"),
     })
 
     cfg:AddChoiceJob(TEAM_CESOF, {
-        cfg:Weapon("clone_dlt19"),
+        cfg:Weapon("tfa_dlt19"),
     })
 
 
@@ -250,39 +263,41 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     ]]--
 
     cfg:AddChoiceJob(TEAM_CGARC, {
-        cfg:Weapon("clone_z6rotary"),
-        cfg:Weapon("clone_dlt_h", {
+        cfg:Weapon("tfa_z6rotary"),
+        cfg:Weapon("tfa_dlt_h", {
             TEAM_CGLT,
             TEAM_CGCPT
         }),
-        cfg:Weapon("clone_valken38x"),
+        cfg:Weapon("tfa_valken38x"),
     })
 
     cfg:AddChoiceJob(TEAM_CGMEDIC, {
-        cfg:Weapon("clone_z6rotary"),
-        cfg:Weapon("clone_dlt_h", {
+        cfg:Weapon("tfa_z6rotary"),
+        cfg:Weapon("tfa_dlt_h", {
             TEAM_CGLT,
             TEAM_CGCPT
         }),
-        cfg:Weapon("clone_valken38x", TEAM_CGCPT),
+        cfg:Weapon("tfa_valken38x", {
+            TEAM_CGCPT
+        }),
     })
 
     cfg:AddChoiceJob(TEAM_CGNULL, {
-        cfg:Weapon("clone_z6rotary"),
-        cfg:Weapon("clone_dlt_h", {
+        cfg:Weapon("tfa_z6rotary"),
+        cfg:Weapon("tfa_dlt_h", {
             TEAM_CGLT,
             TEAM_CGCPT
         }),
-        cfg:Weapon("clone_valken38x"),
+        cfg:Weapon("tfa_valken38x"),
     })
 
     cfg:AddChoiceJob(TEAM_CGSOF, {
-        cfg:Weapon("clone_z6rotary"),
-        cfg:Weapon("clone_dlt_h", {
+        cfg:Weapon("tfa_z6rotary"),
+        cfg:Weapon("tfa_dlt_h", {
             TEAM_CGLT,
             TEAM_CGCPT
         }),
-        cfg:Weapon("clone_valken38x"),
+        cfg:Weapon("tfa_valken38x"),
     })
 
 
@@ -290,73 +305,49 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
     --[[
 
 
-        Clone Trooper's
+        tfa Trooper's
 
 
     ]]--
 
     cfg:AddChoiceJob(TEAM_CT, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
+        cfg:Weapon("tfa_dc15a_mk3"),
+        cfg:Weapon("tfa_dc15s_mk3"),
     })
 
     cfg:AddChoiceJob(TEAM_CTARC, {
-        cfg:Weapon("clone_tl50"),
-        cfg:Weapon("clone_dc15le", {
+        cfg:Weapon("tfa_tl50"),
+        cfg:Weapon("tfa_dc15le", {
             TEAM_CTLT,
             TEAM_CTCPT
         }),
     })
 
-    cfg:AddChoiceJob(TEAM_CTCO, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTCPT, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTDSGT, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTEXO, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTLT, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
+    cfg:AddChoiceJob({
+        TEAM_CTCO,
+        TEAM_CTCPT,
+        TEAM_CTDSGT,
+        TEAM_CTEXO,
+        TEAM_CTLT,
+        TEAM_CTVC
+    }, {
+        cfg:Weapon("tfa_dc15a_mk3"),
+        cfg:Weapon("tfa_dc15s_mk3"),
     })
 
     cfg:AddChoiceJob(TEAM_CTMEDIC, {
-        cfg:Weapon("clone_tl50"),
-        cfg:Weapon("clone_dc15le", TEAM_CTCPT),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTNULL, {
-        cfg:Weapon("clone_tl50"),
-        cfg:Weapon("clone_dc15le", {
-            TEAM_CTLT,
+        cfg:Weapon("tfa_tl50"),
+        cfg:Weapon("tfa_dc15le", {
             TEAM_CTCPT
         }),
     })
 
-    cfg:AddChoiceJob(TEAM_CTSOF, {
-        cfg:Weapon("clone_tl50"),
-        cfg:Weapon("clone_dc15le", {
+    cfg:AddChoiceJob({TEAM_CTSOF,TEAM_CTNULL}, {
+        cfg:Weapon("tfa_tl50"),
+        cfg:Weapon("tfa_dc15le", {
             TEAM_CTLT,
             TEAM_CTCPT
         }),
-    })
-
-    cfg:AddChoiceJob(TEAM_CTVC, {
-        cfg:Weapon("clone_dc15a"),
-        cfg:Weapon("clone_dc15s"),
     })
 
 
@@ -369,39 +360,25 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
 
     ]]--
 
-    cfg:AddChoiceJob(TEAM_DUARC, {
-        cfg:Weapon("clone_t21b"),
-        cfg:Weapon("clone_dual_mpz13", {
+    cfg:AddChoiceJob({
+        TEAM_DUARC,
+        TEAM_DUNULL,
+        TEAM_DUSOF
+    }, {
+        cfg:Weapon("tfa_t21b"),
+        cfg:Weapon("tfa_dual_mpz13", {
             TEAM_DULT,
             TEAM_DUCPT
         }),
     })
 
     cfg:AddChoiceJob(TEAM_DUMEDIC, {
-        cfg:Weapon("clone_t21b", {
+        cfg:Weapon("tfa_t21b", {
             TEAM_DULT,
             TEAM_DUCPT
         }),
-        cfg:Weapon("clone_dual_mpz13"),
+        cfg:Weapon("tfa_dual_mpz13"),
     })
-
-    cfg:AddChoiceJob(TEAM_DUNULL, {
-        cfg:Weapon("clone_t21b"),
-        cfg:Weapon("clone_dual_mpz13", {
-            TEAM_DULT,
-            TEAM_DUCPT
-        }),
-    })
-
-    cfg:AddChoiceJob(TEAM_DUSOF, {
-        cfg:Weapon("clone_t21b"),
-        cfg:Weapon("clone_dual_mpz13", {
-            TEAM_DULT,
-            TEAM_DUCPT
-        }),
-    })
-
-
 
     --[[
 
@@ -411,37 +388,23 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
 
     ]]--
 
-    cfg:AddChoiceJob(TEAM_GCARC, {
-        cfg:Weapon("clone_sniperheavy"),
-        cfg:Weapon("clone_sniperlight"),
+    cfg:AddChoiceJob({
+        TEAM_GCARC,
+        TEAM_GCNULL,
+        TEAM_GCSOF
+    }, {
+        cfg:Weapon("tfa_sniperheavy"),
+        cfg:Weapon("tfa_sniperlight"),
     })
 
     cfg:AddChoiceJob(TEAM_GCMEDIC, {
-        cfg:Weapon("clone_sniperheavy", {
+        cfg:Weapon("tfa_sniperheavy", {
             TEAM_GCLT,
             TEAM_GCCPT
         }),
-        cfg:Weapon("clone_sniperlight"),
+        cfg:Weapon("tfa_sniperlight"),
     })
 
-    cfg:AddChoiceJob(TEAM_GCNULL, {
-        cfg:Weapon("clone_sniperheavy"),
-        cfg:Weapon("clone_sniperlight"),
-    })
-
-    cfg:AddChoiceJob(TEAM_GCSOF, {
-        cfg:Weapon("clone_sniperheavy"),
-        cfg:Weapon("clone_sniperlight"),
-    })
-
-    cfg:AddChoiceJob(TEAM_GMARC, {
-        cfg:Weapon("clone_westarm5"),
-        cfg:Weapon("mexican_flamerv2"),
-        cfg:Weapon("clone_rt97c", {
-            TEAM_GMLT,
-            TEAM_GMCPT
-        }),
-    })
 
 
 
@@ -453,32 +416,29 @@ hook.Add("PostGamemodeLoaded", "ConfigLoad", function()
 
     ]]--
 
+    cfg:AddChoiceJob({
+        TEAM_GMARC,
+        TEAM_GMNULL,
+        TEAM_GMSOF
+    }, {
+        cfg:Weapon("tfa_westarm5"),
+        cfg:Weapon("mexican_flamerv2"),
+        cfg:Weapon("tfa_rt97c", {
+            TEAM_GMLT,
+            TEAM_GMCPT
+        }),
+    })
+
     cfg:AddChoiceJob(TEAM_GMMEDIC, {
-        cfg:Weapon("clone_westarm5"),
+        cfg:Weapon("tfa_westarm5"),
         cfg:Weapon("mexican_flamerv2", {
             TEAM_GMLT,
             TEAM_GMCPT
         }),
-        cfg:Weapon("clone_rt97c", TEAM_GMCPT),
+        cfg:Weapon("tfa_rt97c", TEAM_GMCPT),
     })
 
-    cfg:AddChoiceJob(TEAM_GMNULL, {
-        cfg:Weapon("clone_westarm5"),
-        cfg:Weapon("mexican_flamerv2"),
-        cfg:Weapon("clone_rt97c", {
-            TEAM_GMLT,
-            TEAM_GMCPT
-        }),
-    })
 
-    cfg:AddChoiceJob(TEAM_GMSOF, {
-        cfg:Weapon("clone_westarm5"),
-        cfg:Weapon("mexican_flamerv2"),
-        cfg:Weapon("clone_rt97c", {
-            TEAM_GMLT,
-            TEAM_GMCPT
-        }),
-    })
 
 -- VVVVVV DO NOT TOUCH ANYTHING BELOW THIS LINE VVVVVV --
 end)
