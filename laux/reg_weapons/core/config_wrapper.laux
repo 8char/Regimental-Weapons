@@ -3,6 +3,7 @@ local CONFIG = {}
 function CONFIG:Init()
     RegimentalWeapons.Config = self
     RegimentalWeapons.Config.ChoiceJobs = {}
+    RegimentalWeapons.Config.ChoiceLoadouts = {}
 
     hook.Run("RegimentalWeapons.ConfigChanged", self)
 end
@@ -17,6 +18,18 @@ function CONFIG:AddChoiceJob(team, weapons)
     end
 
     RegimentalWeapons.Config.ChoiceJobs[team] = weapons
+end
+
+function CONFIG:AddChoiceLoadout(team, loadouts)
+    if not team then return end
+    if istable(team) then
+        for _, v in ipairs(team) do
+            RegimentalWeapons.Config.ChoiceLoadouts[v] = loadouts
+        end
+        return
+    end
+
+    RegimentalWeapons.Config.ChoiceLoadouts[team] = loadouts
 end
 
 function CONFIG:Weapon(weaponId, restriction)

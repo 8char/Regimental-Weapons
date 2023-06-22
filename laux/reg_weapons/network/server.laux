@@ -20,16 +20,31 @@ class Network extends AtlasUI.Network
     end
 
     receiveWeaponRequest(ply)
-        local tem = ply:Team()
+        local team = ply:Team()
         local id = net.ReadString()
-        local cfg = RegimentalWeapons.Config.ChoiceJobs
+        local cfg = RegimentalWeapons.Config
+        local loadoutJob = cfg.ChoiceLoadouts
 
-        stopif not cfg[ply:Team()] -- Their job doesn't have a weapon selection
-
-        for k, v in ipairs(cfg[ply:Team()]) do
-            continueif not v.weapon_id == id
-
-            ply:Give(id)
+        stopif not loadoutJob
+        if cfg.ChoiceLoadouts[team] then
+            for _, loadouts in ipairs(cfg.ChoiceLoadouts[team]) do
+                if table.HasValue(loadouts.weapons, id) then
+                    for _, weaponId in ipairs(loadouts.weapons) do
+                        if weaponId == id then
+                            ply:Give(weaponId)
+                        end
+                    end
+                end
+            end
+        else
+            local jobs = cfg.ChoiceJobs[team]
+            if not jobs then return end
+    
+            for _, v in ipairs(jobs) do
+                if v.weaponId == id then
+                    ply:Give(id)
+                end
+            end
         end
     end
 end
