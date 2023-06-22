@@ -6,60 +6,94 @@ local PANEL = {}
 function PANEL:Init()
     local ply = LocalPlayer()
 
-    local cfg = RegimentalWeapons.Config.ChoiceJobs
-    local playerGuns = table.Copy(cfg[ply:Team()])
-    local accessibleJobs = RegimentalWeapons.PlayerAccessibleJobs
-    
-    for k, v of playerGuns do
-        continueif table.IsEmpty(v.restriction)
-        
-        continueif table.HasValue(v.restriction, ply:Team())
+    local cfg = RegimentalWeapons.Config
+    if cfg.ChoiceLoadouts[ply:Team()] then
+        self.loadouts = {}
 
-        local hasAccess = false
-        for j, _ of accessibleJobs do
-            if table.HasValue(v.restriction, j) then
-                hasAccess = true
+        for k, loadouts in ipairs(cfg.ChoiceLoadouts[ply:Team()]) do
+            self.loadouts[k] = self:Add("AtlasUI.ButtonV2")
+            self.loadouts[k]:Dock(TOP)
+            self.loadouts[k]:SetTall(50)
+            self.loadouts[k]:DockMargin(10, 10, 10, 0)
+            self.loadouts[k]:SetRoundness(6)
+            self.loadouts[k]:SetText(loadouts.name)
+            self.loadouts[k]:SetSolidColor(AtlasUI.Theme.Primary)
+            self.loadouts[k].DoClick = function(pnl)
+                surface.PlaySound("garrysmod/ui_click.wav")
+                for _, weaponId in ipairs(loadouts.weapons) do
+                    RegimentalWeapons.Network:requestWeapon(weaponId)
+                end
+                self:GetParent():Remove()
+            end
+
+            self.loadouts[k].PaintOver = function(pnl, w, h)
+                AtlasUI:MaskInverse(
+                    () =>
+                        AtlasUI:DrawRoundedBox(6, 2, 2, w-4, h-4, color_white)
+                    end,
+                    () =>
+                        AtlasUI:DrawRoundedBox(6, 0, 0, w, h, loadouts.noaccess and AtlasUI.Theme.Red or AtlasUI.Theme.Green)
+                    end
+                )
             end
         end
+    else
 
-        continueif hasAccess
+        local playerGuns = table.Copy(cfg.ChoiceJobs[ply:Team()])
+        local accessibleJobs = RegimentalWeapons.PlayerAccessibleJobs
+        
+        for k, v of playerGuns do
+            continueif table.IsEmpty(v.restriction)
+            
+            continueif table.HasValue(v.restriction, ply:Team())
 
-        playerGuns[k].noaccess = true
-    end
-
-    self.weapons = {}
-
-    for k, v of playerGuns do
-        self.weapons[k] = self:Add("AtlasUI.ButtonV2")
-        self.weapons[k]:Dock(TOP)
-        self.weapons[k]:SetTall(50)
-        self.weapons[k]:DockMargin(10, 10, 10, 0)
-        self.weapons[k]:SetRoundness(6)
-        self.weapons[k]:SetText(v.weaponPrintName)
-        self.weapons[k]:SetSolidColor(AtlasUI.Theme.Primary)
-        self.weapons[k].DoClick = (pnl) =>
-            surface.PlaySound("garrysmod/ui_click.wav")
-            RegimentalWeapons.Network:requestWeapon(v.weaponId)
-            self:GetParent():Remove()
-        end
-
-        self.weapons[k].PaintOver = (pnl, w, h) =>
-            AtlasUI:MaskInverse(
-                () =>
-                    AtlasUI:DrawRoundedBox(6, 2, 2, w-4, h-4, color_white)
-                end,
-                () =>
-                    AtlasUI:DrawRoundedBox(6, 0, 0, w, h, v.noaccess and AtlasUI.Theme.Red or AtlasUI.Theme.Green)
+            local hasAccess = false
+            for j, _ of accessibleJobs do
+                if table.HasValue(v.restriction, j) then
+                    hasAccess = true
                 end
-            )
+            end
+
+            continueif hasAccess
+
+            playerGuns[k].noaccess = true
         end
 
-        continueif not v.noaccess
-        self.weapons[k].DoClick = () =>
-            surface.PlaySound("buttons/button11.wav")
+        self.weapons = {}
+
+        for k, v of playerGuns do
+            self.weapons[k] = self:Add("AtlasUI.ButtonV2")
+            self.weapons[k]:Dock(TOP)
+            self.weapons[k]:SetTall(50)
+            self.weapons[k]:DockMargin(10, 10, 10, 0)
+            self.weapons[k]:SetRoundness(6)
+            self.weapons[k]:SetText(v.weaponPrintName)
+            self.weapons[k]:SetSolidColor(AtlasUI.Theme.Primary)
+            self.weapons[k].DoClick = (pnl) =>
+                surface.PlaySound("garrysmod/ui_click.wav")
+                RegimentalWeapons.Network:requestWeapon(v.weaponId)
+                self:GetParent():Remove()
+            end
+
+            self.weapons[k].PaintOver = (pnl, w, h) =>
+                AtlasUI:MaskInverse(
+                    () =>
+                        AtlasUI:DrawRoundedBox(6, 2, 2, w-4, h-4, color_white)
+                    end,
+                    () =>
+                        AtlasUI:DrawRoundedBox(6, 0, 0, w, h, v.noaccess and AtlasUI.Theme.Red or AtlasUI.Theme.Green)
+                    end
+                )
+            end
+
+            continueif not v.noaccess
+            self.weapons[k].DoClick = () =>
+                surface.PlaySound("buttons/button11.wav")
+            end
+            self.weapons[k]:SetCursor("no")
         end
-        self.weapons[k]:SetCursor("no")
     end
+    
 end
 
 vgui.Register("RegimentalWeapons.Main", PANEL)

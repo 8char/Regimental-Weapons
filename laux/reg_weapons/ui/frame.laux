@@ -1,13 +1,41 @@
 local PANEL = {}
 
+function PANEL:SetTitleBasedOnContent()
+    if self.content and self.content.loadouts then
+        self:SetTitle("Pick your loadout!")
+    elseif self.content and self.content.weapons then
+        self:SetTitle("Pick your weapon!")
+    end
+end
+
 function PANEL:Init()
     self:SetSize(420, 640)
     self:Center()
     self:MakePopup()
-    self:SetTitle("Pick your weapon!")
-
+    
     self.content = self:Add("RegimentalWeapons.Main")
     self.content:Dock(FILL)
+    self:SetTitleBasedOnContent()
+end
+
+function PANEL:PerformLayout(w, h)
+    local totalHeight = 0
+    if self.content.loadouts then
+        for k, v in ipairs(self.content.loadouts) do
+            local _, topMargin, _, bottomMargin = v:GetDockMargin()
+            totalHeight = totalHeight + (v:GetTall() + topMargin + bottomMargin)
+        end
+    elseif self.content.weapons then
+        for k, v in ipairs(self.content.weapons) do
+            local _, topMargin, _, bottomMargin = v:GetDockMargin()
+            totalHeight = totalHeight + (v:GetTall() + topMargin + bottomMargin)
+        end
+    end
+    totalHeight = totalHeight + 55 + 10
+    self:SetTall(totalHeight)
+    self.top:SetTall(55)
+    self:SetTall(totalHeight)
+    self.closeBtn:SetWide(self.top:GetTall())
 end
 
 vgui.Register("RegimentalWeapons.Frame", PANEL, "AtlasUI.Frame")
